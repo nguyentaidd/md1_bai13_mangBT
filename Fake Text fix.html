@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    form{
+        display: block;
+        margin-top: 0em;
+    }
+</style>
+<body onload="fake()" style="text-align: center">
+<h1 style="color: red">Fake Text!</h1>
+<form>
+    <label>
+        <textarea cols="50" rows="10" id="txt"></textarea> <!--tạo label gắn thông số cho vùng người nhập text-->
+    </label>
+</form>
+<script>
+    let array = []; //tạo mảng rỗng
+    let msArr = "Kame Hame Haa!"; //tạo chuỗi câu
+    array = msArr.split(''); //gán mảng bằng giá trị chuỗi câu thông qua split
+    let str="";
+    function fake(){
+        let text = document.getElementById('txt').value; //gán giá trị cho text là vùng của ng nhập
+        for (let i = 1; i <= text.length; i++) {
+            str = str+array[i];
+            if (i==22){
+                str="";
+            }
+        }
+        document.getElementById('txt').value = str;
+        str="";
+        setTimeout(fake, 1);
+    }
+
+</script>
+
+</body>
+</html>

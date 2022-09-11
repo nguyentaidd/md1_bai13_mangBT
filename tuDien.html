@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Từ Điển</title>
+</head>
+<body>
+<p>Tiếng Anh</p>
+<input type="text" id="word">
+<button onclick="translatee()">Tra</button>
+<p>Tiếng Việt </p>
+<p id="tiengViet" style="color: orangered"></p>
+<script>
+    let anh = ['Katarina','Akali','Irelia','Diana','Vayne top']
+    let viet = ['My Lover', 'Akacua','Rất cân bằng!','Siêu thấm','Súc vật!']
+    function translatee(){
+        let tuNhap = document.getElementById('word').value;
+        for (let i = 0; i < anh.length; i++) {
+            if (tuNhap === anh[i]){
+                document.getElementById('tiengViet').innerText = viet[i]
+                return i;
+            } if (tuNhap.trim()===''){
+                document.getElementById('tiengViet').innerText = 'Không định dạng!'
+            }
+        }
+    }
+</script>
+</body>
+</html>

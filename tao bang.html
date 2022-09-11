@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        tr{
+            text-align: center;
+        }
+        input{
+            width: 400px;
+        }
+        button{
+          border-radius: 15%;
+        }
+    </style>
+</head>
+<body>
+<h1 style="text-align: center">Quản lý sinh viên</h1>
+<label id="validate"></label><br>
+<input id="hocSinhMoi" type="text" placeholder="Tên sinh viên">
+<button onclick="createStudent()">Tạo thêm sinh viên</button>
+<input id="search" type="text" placeholder="Tra">
+<button onclick="actionSearch()">Tìm Kiếm</button>
+<table border="1" style="width: 100%">
+    <tr>
+            <th>STT</th>
+            <th>Tên</th>
+            <th>Chỉnh sửa</th>
+            <th>Xóa</th>
+        </tr>
+    <tbody id="drawTable">
+<!--    <tr>-->
+<!--        <td>1</td>-->
+<!--        <td>maicon</td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--        <td>2</td>-->
+<!--        <td>hai</td>-->
+<!--    </tr>-->
+    </tbody>
+
+</table>
+<script>
+    //Danh sách học sinh R trg CRUD
+ let studentsList = ['Katarina','Akali','Caitlyn','Raikou','Artoria']
+    function showListStudent() {
+    let drawTable = ''; <!--gọi ra một biến drawtable từ id <tbody> -->
+        for (let i = 0; i < studentsList.length; i++) {
+            //Cach 1: Dùng cách ' ' thường
+            // drawTable+= '<tr>'+
+            //     '<td>'+(i+1)+'</td>'+
+            //     '<td>'+studentsList[i]+'</td>'+
+            //     '</tr>'
+            //Cách 2: Dùng string template '' biding biến quá ${}
+            drawTable+=`<tr>
+                        <td>${i+1}</td>
+                        <td>${studentsList[i+1]}</td> <!--Số thứ tự của từng phần tử studentsList chạy từ 1(i+1)-->
+                        <td><button onclick="capNhat(${i})">Sửa</button></td> <!--Viết bảng sửa theo thứ tự phần tử-->
+                        <td><button onclick="xoa(${i})">Xóa</button></td>
+                        </tr>`
+        }
+        document.getElementById('drawTable').innerHTML = drawTable;
+    }
+    showListStudent(); <!-- +dòng trên nhận lệnh in bảng và thông số -->
+//Bước 2: Xây dựng hàm (thêm đk học sinh, báo trống)
+    function createStudent(){
+        let newStudent = document.getElementById('hocSinhMoi').value;
+        if(newStudent.trim()===''){
+            document.getElementById('validate').innerHTML = '<label style="color: red">Tên không hợp lệ! Xin hãy nhập lại</label>';
+        } else {
+            studentsList.push(newStudent);
+            document.getElementById('validate').innerHTML = '<label style="color: blue">Thêm thành công!</label>';
+            showListStudent();
+        }
+    }
+//Bước 3: Xây dựng update
+    function capNhat(id){
+        console.log('id-----',id)
+        let capNhat = prompt('Nhập tên sinh viên mới:', 'Tên cũ: ' + studentsList[id])
+        if (capNhat.trim()===''){
+            document.getElementById('validate').innerHTML = '<label style="color: red">Tên không hợp lệ! Xin hãy nhập lại</label>';
+        } else {
+                if (capNhat===studentsList[id]) {
+                    document.getElementById('validate').innerHTML = '<label style="color: red">Tên đã tồn tại! Xin hãy nhập lại</label>';
+                } else {
+                    studentsList[id] = capNhat;
+                    document.getElementById('validate').innerHTML = '<label style="color: blue">Sửa thành công!</label>';
+                    showListStudent();
+                }
+            }
+    }
+    //Bước 4: Xây dựng hàm xóa
+    function xoa(id) {
+        if (confirm('Xóa sinh viên?')){
+            studentsList.splice(id,1)
+            document.getElementById('validate').innerHTML = '<label style="color: blue">Xóa thành công!</label>';
+        } else{
+            document.getElementById('validate').innerHTML = '<label style="color: red">Rảnh!</label>';
+        }
+        showListStudent()
+    }
+    //Bước 5: Xây dựng chức năng tìm kiếm Search:
+    let traCuu = [];
+    function actionSearch() {
+        traCuu = []
+        let search = document.getElementById('search').value;
+        //Tìm kiếm tuyệt đối cả chữ hoa và chữ thường
+        // if (search.trim()===''){
+        //     showListStudent();
+        //     return;
+        // } else {
+        //     for (let i=0;i< studentsList.length; i++) {
+        //         if (search.toLowerCase()===studentsList[i].toLowerCase()){
+        //             traCuu.push(studentsList[i])
+        //         }
+        //     }
+        // }
+
+        //Tìm kiếm tương đối
+        if (search.trim()===''){
+            showListStudent();
+            return;
+        } else {
+            for (let i = 0; i < studentsList.length; i++) {
+                if (studentsList[i].search(search)!==-1){
+                    traCuu.push(studentsList[i])
+                }
+            }
+        }
+        showListSearch();
+    }
+    function showListSearch(){
+        let drawTable = '';
+        for (let i = 0; i < traCuu.length; i++) {
+            //Cach 1: Dùng cách ' ' thường
+            // drawTable+= '<tr>'+
+            //     '<td>'+(i+1)+'</td>'+
+            //     '<td>'+studentsList[i]+'</td>'+
+            //     '</tr>'
+            //Cách 2: Dùng string template '' biding biến quá ${}
+            drawTable+=`<tr>
+                        <td>${i+1}</td>
+                        <td>${traCuu[i]}</td>
+                        <td><button onclick="capNhat(${i})">Sửa</button></td>
+                        <td><button onclick="xoa(${i})">Xóa</button></td>
+                        </tr>`
+        }
+        document.getElementById('drawTable').innerHTML = drawTable;
+    }
+
+
+</script>
+
+</body>
+</html>
