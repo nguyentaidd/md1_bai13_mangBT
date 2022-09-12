@@ -16,9 +16,6 @@
 <script>
     function demTu() {
         str1= document.getElementById("nhapText").value;
-        str1 = str1.replace(/(^\s*)|(\s*$)/gi,""); //bỏ khoảng cách đầu cuối
-        str1 = str1.replace(/[ ]{2,}/gi," ");//chuyển đổi 2 hoặc nhiều khoảng cách thành 1
-        str1 = str1.replace(/\n /,"\n");//bỏ dòng mới với khoảng cách bắt đầu
         document.getElementById("noofwords").value = str1.split(' ').length;
     }
 </script>
